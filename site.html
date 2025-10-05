@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ENJOYER</title>
+
+  <!-- Privacy-first headers (also set on server) -->
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    /* Минимальный встроенный CSS — без внешних шрифтов */
+    :root{
+      --neon: #00eaff;
+      --bg1: #010b10;
+      --bg2: #02151a;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:var(--neon); -webkit-font-smoothing:antialiased;}
+    header{ text-align:center;padding:28px 12px;font-weight:800;letter-spacing:6px;font-size:34px;text-shadow:0 0 18px rgba(0,234,255,0.25); }
+    .container{max-width:640px;margin:20px auto;padding:8px;}
+    .menu{background:rgba(0,10,12,0.6);border-radius:14px;overflow:hidden;box-shadow:0 6px 30px rgba(0,234,255,0.06);}
+    .item{padding:14px 18px;border-bottom:1px solid rgba(0,234,255,0.06);text-align:center;cursor:pointer;user-select:none;}
+    .item:last-child{border-bottom:0;}
+    .item:hover{background:rgba(0,234,255,0.04);box-shadow:inset 0 0 12px rgba(0,234,255,0.04);transform:translateY(-1px);transition:all .16s ease;}
+    .details{display:none;padding:26px;text-align:center;}
+    .details.active{display:block;}
+    .btn{display:inline-block;margin-top:18px;padding:10px 18px;border-radius:9px;background:linear-gradient(180deg,#00eaff,#00c7d9);color:#001317;font-weight:700;text-decoration:none;box-shadow:0 0 28px rgba(0,234,255,0.14);}
+    .back{display:inline-block;margin-top:12px;color:var(--neon);cursor:pointer;text-decoration:underline;font-size:13px;}
+    footer{opacity:0.6;text-align:center;font-size:12px;margin-top:18px;}
+  </style>
+</head>
+<body>
+  <header>ENJOYER</header>
+
+  <div class="container">
+    <div id="menu" class="menu">
+      <div class="item" data-id="enjoyer-1">ENJOYER — Главное</div>
+      <div class="item" data-id="enjoyer-2">СОКОЛ — Магазин</div>
+      <div class="item" data-id="enjoyer-3">ЧАРЛИ — Обменник</div>
+      <div class="item" data-id="enjoyer-4">КРИПТОМЭН — Обменник</div>
+      <!-- добавь нужные пункты, сохраняя структуру -->
+    </div>
+
+    <div id="details" class="details" aria-hidden="true">
+      <h2 id="title"></h2>
+      <p id="desc">Описание появится здесь.</p>
+      <a id="chatBtn" class="btn" href="#" target="_blank" rel="noopener noreferrer">Перейти в чат</a>
+      <div class="back" id="backBtn">← Назад</div>
+    </div>
+
+    <footer>Статический сайт — без аналитики и сторонних ресурсов</footer>
+  </div>
+
+  <script>
+    // Очень минимальный JS — не собирает ничего, не отправляет данных.
+    const data = {
+      "enjoyer-1": {title:"ENJOYER", desc:"Главная страница Enjoyer.", link:"https://t.me/+4vQilJYZHrIwMGUy"},
+      "enjoyer-2": {title:"СОКОЛ — Магазин", desc:"Магазин цифровых товаров.", link:"https://t.me/+4vQilJYZHrIwMGUy"},
+      "enjoyer-3": {title:"ЧАРЛИ — Обменник", desc:"Обменник и сервис.", link:"https://t.me/+4vQilJYZHrIwMGUy"},
+      "enjoyer-4": {title:"КРИПТОМЭН — Обменник", desc:"Крипто-услуги.", link:"https://t.me/+4vQilJYZHrIwMGUy"}
+    };
+
+    document.querySelectorAll('.item').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const id = el.getAttribute('data-id');
+        const obj = data[id] || {title:el.textContent, desc:"Без описания", link:"https://t.me/+4vQilJYZHrIwMGUy"};
+        document.getElementById('title').textContent = obj.title;
+        document.getElementById('desc').textContent = obj.desc;
+        const btn = document.getElementById('chatBtn');
+        btn.href = obj.link;
+        // показать деталь
+        document.getElementById('menu').style.display = 'none';
+        const details = document.getElementById('details');
+        details.classList.add('active');
+        details.setAttribute('aria-hidden','false');
+      });
+    });
+
+    document.getElementById('backBtn').addEventListener('click', ()=>{
+      document.getElementById('details').classList.remove('active');
+      document.getElementById('details').setAttribute('aria-hidden','true');
+      setTimeout(()=> document.getElementById('menu').style.display = 'block', 160);
+    });
+
+    // Ноль логики по сбору данных — нет fetch/post, нет localStorage usage.
+  </script>
+</body>
+</html>
